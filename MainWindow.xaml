@@ -11,23 +11,44 @@
         Foreground="{DynamicResource ThemeForegroundBrush}"
         Loaded="MainWindow_Loaded"
         SizeChanged="MainWindow_SizeChanged">
-    <Grid>
+    <Grid PreviewMouseDown="Grid_PreviewMouseDown">
         <!-- Main Content Area -->
         <DockPanel x:Name="MainContentPanel">
             <ToolBarTray x:Name="MainToolBarTray" DockPanel.Dock="Top" Background="{DynamicResource ThemeControlBackgroundBrush}">
-                <ToolBar>
-                    <Button x:Name="FileButton" Content="File" Click="FileButton_Click"/>
+                <ToolBar Height="60" Padding="5">
+                    <Button x:Name="FileButton" Click="FileButton_Click" ToolTip="File Menu" FontSize="18" Width="35" Height="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                         <TextBlock Text="☰" FontFamily="Segoe UI Symbol"/>
+                    </Button>
                     <Separator/>
-                    <Button Content="Pencil" />
-                    <Button Content="Eraser" />
+                    <Button x:Name="PencilButton" ToolTip="Pencil Tool" FontSize="18" Width="35" Height="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                        <TextBlock Text="✏️" FontFamily="Segoe UI Symbol"/>
+                    </Button>
+                    <Button x:Name="EraserButton" ToolTip="Eraser Tool" FontSize="18" Width="35" Height="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                        <TextBlock Text="⬜" FontFamily="Segoe UI Symbol" ToolTip="Eraser Placeholder"/>
+                    </Button>
                     <Separator />
-                    <Button Content="Color" />
+                    <StackPanel Orientation="Vertical" Margin="5,0">
+                         <TextBlock Text="Color" FontSize="9" HorizontalAlignment="Center"/>
+                         <Border x:Name="PrimaryColorIndicator" Width="25" Height="15" Background="Black" BorderBrush="Gray" BorderThickness="1" Margin="0,1,0,1" ToolTip="Primary Color"/>
+                         <Border x:Name="SecondaryColorIndicator" Width="25" Height="15" Background="White" BorderBrush="Gray" BorderThickness="1" ToolTip="Secondary Color (Not Implemented)"/>
+                     </StackPanel>
+                     <Separator/>
+                     <WrapPanel x:Name="ColorPalettePanel" Orientation="Horizontal" VerticalAlignment="Center" MaxWidth="150">
+                         <Border x:Name="ColorSwatchBlack" Width="20" Height="20" Background="Black" BorderBrush="Gray" BorderThickness="1" Margin="1" Cursor="Hand" MouseLeftButtonDown="ColorSwatch_MouseLeftButtonDown"/>
+                         <Border x:Name="ColorSwatchWhite" Width="20" Height="20" Background="White" BorderBrush="Gray" BorderThickness="1" Margin="1" Cursor="Hand" MouseLeftButtonDown="ColorSwatch_MouseLeftButtonDown"/>
+                         <Border x:Name="ColorSwatchRed" Width="20" Height="20" Background="Red" BorderBrush="Gray" BorderThickness="1" Margin="1" Cursor="Hand" MouseLeftButtonDown="ColorSwatch_MouseLeftButtonDown"/>
+                         <Border x:Name="ColorSwatchGreen" Width="20" Height="20" Background="Lime" BorderBrush="Gray" BorderThickness="1" Margin="1" Cursor="Hand" MouseLeftButtonDown="ColorSwatch_MouseLeftButtonDown"/>
+                         <Border x:Name="ColorSwatchBlue" Width="20" Height="20" Background="Blue" BorderBrush="Gray" BorderThickness="1" Margin="1" Cursor="Hand" MouseLeftButtonDown="ColorSwatch_MouseLeftButtonDown"/>
+                         <Border x:Name="ColorSwatchYellow" Width="20" Height="20" Background="Yellow" BorderBrush="Gray" BorderThickness="1" Margin="1" Cursor="Hand" MouseLeftButtonDown="ColorSwatch_MouseLeftButtonDown"/>
+                     </WrapPanel>
                     <Separator />
-                    <Label Content="Width:"/>
-                    <TextBox x:Name="WidthTextBox" Width="50" />
-                    <Label Content="Height:"/>
-                    <TextBox x:Name="HeightTextBox" Width="50" />
-                    <Button x:Name="ResizeButton" Content="Set Size" Click="ResizeButton_Click"/>
+                    <Label Content="Width:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="WidthTextBox" Width="40" VerticalAlignment="Center"/>
+                    <Label Content="Height:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="HeightTextBox" Width="40" VerticalAlignment="Center"/>
+                    <Button x:Name="ResizeButton" Click="ResizeButton_Click" ToolTip="Set Canvas Size" FontSize="18" Width="35" Height="35" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                         <TextBlock Text="↔️" FontFamily="Segoe UI Symbol"/>
+                    </Button>
                 </ToolBar>
             </ToolBarTray>
 

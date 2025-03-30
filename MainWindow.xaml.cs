@@ -12,6 +12,9 @@ using System.Windows.Shapes;
 using System.Linq;
 using System.Windows.Media.Animation;
 using System.Windows.Ink;
+using System.Windows.Forms;
+using WinFormsColor = System.Drawing.Color;
+using WpfColor = System.Windows.Media.Color;
 
 namespace PaintBetter
 {
@@ -28,8 +31,8 @@ namespace PaintBetter
         // --- Interaction State ---
         private enum DragMode { None, Scrolling, DraggingCanvas }
         private DragMode currentDragMode = DragMode.None;
-        private Point dragStartPointInScrollViewer; // Point where drag started relative to ScrollViewer
-        private Point dragStartPointOnCanvas; // Point where drag started relative to the Canvas panel
+        private System.Windows.Point dragStartPointInScrollViewer;
+        private System.Windows.Point dragStartPointOnCanvas;
         private double canvasStartLeft;
         private double canvasStartTop;
 
@@ -125,7 +128,7 @@ namespace PaintBetter
 
         private void SwitchTheme(string themeName)
         {
-            var existingDictionaries = Application.Current.Resources.MergedDictionaries
+            var existingDictionaries = System.Windows.Application.Current.Resources.MergedDictionaries // Qualify Application
                 .Where(rd => rd.Source != null && rd.Source.OriginalString.StartsWith("Themes/"))
                 .ToList();
             
@@ -134,13 +137,13 @@ namespace PaintBetter
                 // Keep Generic.xaml, remove others (like LightTheme.xaml or DarkTheme.xaml)
                 if (!rd.Source.OriginalString.Equals("Themes/Generic.xaml", StringComparison.OrdinalIgnoreCase))
                 {
-                    Application.Current.Resources.MergedDictionaries.Remove(rd);
+                    System.Windows.Application.Current.Resources.MergedDictionaries.Remove(rd); // Qualify Application
                 }
             }
 
             string themeUri = themeName == "Dark" ? "Themes/DarkTheme.xaml" : "Themes/LightTheme.xaml";
             var newThemeDictionary = new ResourceDictionary { Source = new Uri(themeUri, UriKind.Relative) };
-            Application.Current.Resources.MergedDictionaries.Add(newThemeDictionary);
+            System.Windows.Application.Current.Resources.MergedDictionaries.Add(newThemeDictionary); // Qualify Application
 
             // Ensure foreground is updated correctly (already set on Window in XAML, but good to be explicit if needed)
             // this.Foreground = (Brush)FindResource("ThemeForegroundBrush"); 
@@ -161,13 +164,20 @@ namespace PaintBetter
             }
         }
 
-        private void CloseFilePanelButton_Click(object sender, RoutedEventArgs e)
+        private void CloseFilePanel()
         {
-             if (isFilePanelOpen)
+            if (isFilePanelOpen)
             {
-                 FilePanelTranslateTransform.X = -FilePanelWidth; 
+                // Consider using animation if InitializeAnimations was enabled
+                // slideOutStoryboard.Begin(); 
+                FilePanelTranslateTransform.X = -FilePanelWidth; 
                 isFilePanelOpen = false;
             }
+        }
+
+        private void CloseFilePanelButton_Click(object sender, RoutedEventArgs e)
+        {
+             CloseFilePanel(); // Call the refactored method
         }
 
         private void FilePanelSettingsThemeButton_Click(object sender, RoutedEventArgs e)
@@ -185,7 +195,7 @@ namespace PaintBetter
 
         private void FilePanelQuitButton_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown(); // Fully qualify Application
         }
 
         private void CanvasScrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -198,7 +208,7 @@ namespace PaintBetter
                 e.Handled = true; // Handle the event to prevent default scrolling
 
                 // --- Zooming --- 
-                Point mousePosInScrollViewer = e.GetPosition(CanvasScrollViewer);
+                System.Windows.Point mousePosInScrollViewer = e.GetPosition(CanvasScrollViewer);
                 double currentScale = CanvasScaleTransform.ScaleX; // Assuming uniform scaling
 
                 // Calculate zoom factor and new scale, clamping included
@@ -208,7 +218,7 @@ namespace PaintBetter
                 if (currentScale == newScale) return; // No change if clamped
 
                 // Calculate position relative to the CanvasBorder for ScaleTransform center
-                 Point mousePosOnBorder = e.GetPosition(CanvasBorder);
+                 System.Windows.Point mousePosOnBorder = e.GetPosition(CanvasBorder);
                  CanvasScaleTransform.CenterX = mousePosOnBorder.X;
                  CanvasScaleTransform.CenterY = mousePosOnBorder.Y;
 
@@ -263,13 +273,13 @@ namespace PaintBetter
                     currentDragMode = DragMode.DraggingCanvas;
                     canvasStartLeft = Canvas.GetLeft(CanvasBorder);
                     canvasStartTop = Canvas.GetTop(CanvasBorder);
-                    CanvasScrollViewer.Cursor = Cursors.SizeAll; 
+                    CanvasScrollViewer.Cursor = System.Windows.Input.Cursors.SizeAll; // Qualify Cursors
                 }
                 else // Clicked on the CanvasBorder or something inside it
                 {   
                     // Clicked on content - start SCROLLING mode
                     currentDragMode = DragMode.Scrolling;
-                    CanvasScrollViewer.Cursor = Cursors.ScrollAll; 
+                    CanvasScrollViewer.Cursor = System.Windows.Input.Cursors.ScrollAll; // Qualify Cursors
                 }
 
                 e.Handled = true; 
@@ -281,14 +291,14 @@ namespace PaintBetter
             if (e.ChangedButton == MouseButton.Middle && currentDragMode != DragMode.None)
             {
                 currentDragMode = DragMode.None;
-                CanvasScrollViewer.Cursor = Cursors.Arrow; 
+                CanvasScrollViewer.Cursor = System.Windows.Input.Cursors.Arrow; // Qualify Cursors
                 e.Handled = true;
             }
         }
 
-        private void CanvasScrollViewer_MouseMove(object sender, MouseEventArgs e)
+        private void CanvasScrollViewer_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            Point currentPointInScrollViewer = e.GetPosition(CanvasScrollViewer);
+            System.Windows.Point currentPointInScrollViewer = e.GetPosition(CanvasScrollViewer);
             double deltaXScrollViewer = currentPointInScrollViewer.X - dragStartPointInScrollViewer.X;
             double deltaYScrollViewer = currentPointInScrollViewer.Y - dragStartPointInScrollViewer.Y;
 
@@ -304,7 +314,7 @@ namespace PaintBetter
             {
                  // Drag the canvas by changing Canvas.Left/Top
                  // Use the delta relative to the start point on the Canvas panel for positioning
-                 Point currentPointOnCanvas = e.GetPosition(CanvasContainerPanel);
+                 System.Windows.Point currentPointOnCanvas = e.GetPosition(CanvasContainerPanel);
                  double deltaXCanvas = currentPointOnCanvas.X - dragStartPointOnCanvas.X;
                  double deltaYCanvas = currentPointOnCanvas.Y - dragStartPointOnCanvas.Y;
 
@@ -316,13 +326,14 @@ namespace PaintBetter
             }
            
             // Update coordinate display (relative to InkCanvas)
-             Point positionInInkCanvas = e.GetPosition(DrawingCanvas);
+             System.Windows.Point positionInInkCanvas = e.GetPosition(DrawingCanvas);
              CoordinatesText.Text = $"X: {(int)positionInInkCanvas.X}, Y: {(int)positionInInkCanvas.Y}";
         }
 
-        private void DrawingCanvas_MouseMove(object sender, MouseEventArgs e)
+        private void DrawingCanvas_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-             // No longer needed for coordinates, might be needed for drawing later
+             System.Windows.Point positionInInkCanvas = e.GetPosition(DrawingCanvas);
+              CoordinatesText.Text = $"X: {(int)positionInInkCanvas.X}, Y: {(int)positionInInkCanvas.Y}";
         }
 
         private void ResizeButton_Click(object sender, RoutedEventArgs e)
@@ -333,13 +344,112 @@ namespace PaintBetter
             {
                 CanvasBorder.Width = newWidth;
                 CanvasBorder.Height = newHeight;
+                CenterCanvas();
             }
             else
             {
-                MessageBox.Show("Please enter valid positive numbers for width and height.", "Invalid Size", MessageBoxButton.OK, MessageBoxImage.Warning);
+                System.Windows.MessageBox.Show("Please enter valid positive numbers for width and height.", "Invalid Size", MessageBoxButton.OK, MessageBoxImage.Warning); // Qualify MessageBox
                 WidthTextBox.Text = CanvasBorder.Width.ToString();
                 HeightTextBox.Text = CanvasBorder.Height.ToString();
             }
         }
+
+        // --- Color Swatch Handling ---
+
+        private void ColorSwatch_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border swatch)
+            {
+                SolidColorBrush currentSwatchBrush = swatch.Background as SolidColorBrush;
+
+                // Single Click: Set primary color
+                if (e.ClickCount == 1)
+                {
+                    if (currentSwatchBrush != null)
+                    {
+                        PrimaryColorIndicator.Background = currentSwatchBrush;
+                        DrawingCanvas.DefaultDrawingAttributes.Color = currentSwatchBrush.Color;
+                        // Optionally: Update secondary color logic here if needed later
+                    }
+                }
+                // Double Click: Open Color Picker
+                else if (e.ClickCount == 2)
+                {
+                    ColorDialog colorDialog = new ColorDialog();
+                    colorDialog.AllowFullOpen = true;
+                    colorDialog.AnyColor = true;
+                    
+                    // Initialize with current swatch color OR default to white
+                    if (currentSwatchBrush != null)
+                    {
+                        WpfColor wpfColor = currentSwatchBrush.Color;
+                        colorDialog.Color = WinFormsColor.FromArgb(wpfColor.A, wpfColor.R, wpfColor.G, wpfColor.B);
+                    }
+                    else
+                    {
+                        // Default color if the swatch background isn't a SolidColorBrush
+                        colorDialog.Color = WinFormsColor.White; 
+                    }
+
+                    if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        WinFormsColor selectedWinColor = colorDialog.Color;
+                        WpfColor selectedWpfColor = WpfColor.FromArgb(selectedWinColor.A, selectedWinColor.R, selectedWinColor.G, selectedWinColor.B);
+                        SolidColorBrush newBrush = new SolidColorBrush(selectedWpfColor);
+
+                        swatch.Background = newBrush;
+
+                        // Check if primary indicator needs updating (if it held the OLD swatch color)
+                        if (PrimaryColorIndicator.Background is SolidColorBrush primaryIndicatorBrush &&
+                            currentSwatchBrush != null && // Ensure we have the old brush color
+                            primaryIndicatorBrush.Color == currentSwatchBrush.Color)
+                        {
+                            PrimaryColorIndicator.Background = newBrush;
+                            DrawingCanvas.DefaultDrawingAttributes.Color = selectedWpfColor;
+                        }
+                        // Optionally: Update secondary indicator logic here if needed later
+                    }
+                    e.Handled = true; // Prevent single-click logic firing after double-click
+                }
+            }
+        }
+
+        // --- Helper Method for Visual Tree Traversal ---
+        private bool IsElementOrDescendantOf(DependencyObject? child, DependencyObject? potentialParent)
+        {
+            if (child == null || potentialParent == null) return false;
+            if (child == potentialParent) return true;
+
+            DependencyObject? parent = VisualTreeHelper.GetParent(child);
+            while (parent != null)
+            {
+                if (parent == potentialParent) return true;
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+            return false;
+        }
+
+        // --- Updated Handler for Click-Outside-to-Close ---
+        private void Grid_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Only act if the file panel is open
+            if (isFilePanelOpen)
+            {
+                // Get the element that was actually clicked
+                if (e.OriginalSource is DependencyObject originalSource)
+                {
+                    // Check if the click was *outside* the FilePanel AND *not* on the FileButton
+                    // Use the new helper method for checking descendants.
+                    if (!IsElementOrDescendantOf(originalSource, FilePanel) && 
+                        !IsElementOrDescendantOf(originalSource, FileButton)) 
+                    {
+                        CloseFilePanel();
+                        // Optional: Mark the event as handled
+                        // e.Handled = true; 
+                    }
+                }
+            }
+        }
+
     }
 } 
