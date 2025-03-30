@@ -8,55 +8,75 @@
         Title="PaintBetter" Height="600" Width="800"
         Background="{DynamicResource ThemeWindowBackgroundBrush}" 
         Foreground="{DynamicResource ThemeForegroundBrush}">
-    <DockPanel x:Name="RootDockPanel">
-        <Menu DockPanel.Dock="Top" Background="{DynamicResource ThemeControlBackgroundBrush}">
-            <MenuItem Header="_File">
-                <MenuItem Header="_Save"/>
-                <MenuItem Header="_Settings">
-                    <MenuItem x:Name="LightThemeMenuItem" Header="_Light Theme" IsCheckable="True" Click="ThemeMenuItem_Click"/>
-                    <MenuItem x:Name="DarkThemeMenuItem" Header="_Dark Theme" IsCheckable="True" Click="ThemeMenuItem_Click"/>
-                </MenuItem>
+    <Grid>
+        <!-- Main Content Area -->
+        <DockPanel x:Name="MainContentPanel">
+            <ToolBarTray x:Name="MainToolBarTray" DockPanel.Dock="Top" Background="{DynamicResource ThemeControlBackgroundBrush}">
+                <ToolBar>
+                    <Button x:Name="FileButton" Content="File" Click="FileButton_Click"/>
+                    <Separator/>
+                    <Button Content="Pencil" />
+                    <Button Content="Eraser" />
+                    <Separator />
+                    <Button Content="Color" />
+                    <Separator />
+                    <Label Content="Width:"/>
+                    <TextBox x:Name="WidthTextBox" Width="50" />
+                    <Label Content="Height:"/>
+                    <TextBox x:Name="HeightTextBox" Width="50" />
+                    <Button x:Name="ResizeButton" Content="Set Size" Click="ResizeButton_Click"/>
+                </ToolBar>
+            </ToolBarTray>
+
+            <StatusBar x:Name="MainStatusBar" DockPanel.Dock="Bottom" Background="{DynamicResource ThemeControlBackgroundBrush}">
+                <StatusBarItem>
+                    <TextBlock x:Name="FileNameText" Text="Untitled" />
+                </StatusBarItem>
                 <Separator/>
-                <MenuItem Header="_Quit" Click="QuitMenuItem_Click"/>
-            </MenuItem>
-        </Menu>
+                <StatusBarItem>
+                    <TextBlock x:Name="CoordinatesText" Text="X: 0, Y: 0" />
+                </StatusBarItem>
+            </StatusBar>
 
-        <ToolBarTray x:Name="MainToolBarTray" DockPanel.Dock="Top" Background="{DynamicResource ThemeControlBackgroundBrush}">
-            <ToolBar>
-                <Button Content="Pencil" />
-                <Button Content="Eraser" />
-                <Separator />
-                <Button Content="Color" />
-                <Separator />
-                <Label Content="Width:"/>
-                <TextBox x:Name="WidthTextBox" Width="50" />
-                <Label Content="Height:"/>
-                <TextBox x:Name="HeightTextBox" Width="50" />
-                <Button x:Name="ResizeButton" Content="Set Size" Click="ResizeButton_Click"/>
-            </ToolBar>
-        </ToolBarTray>
+            <!-- ScrollViewer allows canvas size independent of window -->
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="{DynamicResource ThemeWindowBackgroundBrush}">
+                 <!-- Border visually contains the canvas -->
+                <Border x:Name="CanvasBorder"
+                        Width="800" Height="600"
+                        BorderBrush="{DynamicResource ThemeBorderBrush}" BorderThickness="1" 
+                        HorizontalAlignment="Left" VerticalAlignment="Top">
+                     <!-- Canvas fills the border, keep background White -->
+                    <InkCanvas x:Name="DrawingCanvas" Background="White" MouseMove="DrawingCanvas_MouseMove"/>
+                </Border>
+            </ScrollViewer>
+        </DockPanel>
 
-        <StatusBar x:Name="MainStatusBar" DockPanel.Dock="Bottom" Background="{DynamicResource ThemeControlBackgroundBrush}">
-            <StatusBarItem>
-                <TextBlock x:Name="FileNameText" Text="Untitled" />
-            </StatusBarItem>
-            <Separator/>
-            <StatusBarItem>
-                <TextBlock x:Name="CoordinatesText" Text="X: 0, Y: 0" />
-            </StatusBarItem>
-        </StatusBar>
+        <!-- File Side Panel (Initially Offscreen) -->
+        <Border x:Name="FilePanel"
+                Width="250"
+                HorizontalAlignment="Left"
+                Background="LightGray"
+                BorderBrush="{DynamicResource ThemeBorderBrush}"
+                BorderThickness="0,0,1,0">
+            <Border.RenderTransform>
+                <TranslateTransform x:Name="FilePanelTranslateTransform" X="-250"/>
+            </Border.RenderTransform>
+            <DockPanel Margin="10">
+                 <Button x:Name="CloseFilePanelButton" DockPanel.Dock="Bottom" Content="Close" Margin="0,10,0,0" Click="CloseFilePanelButton_Click" HorizontalAlignment="Stretch"/>
+                 <Button x:Name="FilePanelQuitButton" DockPanel.Dock="Bottom" Content="Quit" Margin="0,5,0,0" Click="FilePanelQuitButton_Click" HorizontalAlignment="Stretch"/>
+               
+                 <!-- Settings Section -->
+                 <StackPanel DockPanel.Dock="Bottom" Margin="0,20,0,0">
+                     <Label Content="Settings" FontWeight="SemiBold" Padding="0,0,0,5"/>
+                     <RadioButton x:Name="LightThemeRadio" Content="Light Theme" GroupName="Theme" Click="FilePanelSettingsThemeButton_Click" IsChecked="True"/>
+                     <RadioButton x:Name="DarkThemeRadio" Content="Dark Theme" GroupName="Theme" Click="FilePanelSettingsThemeButton_Click"/>
+                 </StackPanel>
 
-        <!-- ScrollViewer allows canvas size independent of window -->
-        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="{DynamicResource ThemeWindowBackgroundBrush}">
-             <!-- Border visually contains the canvas -->
-            <Border x:Name="CanvasBorder"
-                    Width="800" Height="600"
-                    BorderBrush="{DynamicResource ThemeBorderBrush}" BorderThickness="1" 
-                    HorizontalAlignment="Left" VerticalAlignment="Top">
-                 <!-- Canvas fills the border, keep background White -->
-                <InkCanvas x:Name="DrawingCanvas" Background="White" MouseMove="DrawingCanvas_MouseMove"/>
-            </Border>
-        </ScrollViewer>
-
-    </DockPanel>
+                 <!-- Top Section (Save) -->
+                 <Button x:Name="FilePanelSaveButton" Content="Save" Height="50" FontSize="16" Margin="0,0,0,10" VerticalAlignment="Top" HorizontalAlignment="Stretch" /> 
+                 <!-- Add other File operations here eventually -->
+                
+            </DockPanel>
+        </Border>
+    </Grid>
 </Window> 
