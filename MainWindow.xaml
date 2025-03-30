@@ -55,7 +55,7 @@
         <Border x:Name="FilePanel"
                 Width="250"
                 HorizontalAlignment="Left"
-                Background="LightGray"
+                Background="{DynamicResource ThemeControlBackgroundBrush}"
                 BorderBrush="{DynamicResource ThemeBorderBrush}"
                 BorderThickness="0,0,1,0">
             <Border.RenderTransform>

@@ -15,4 +15,13 @@
     <SolidColorBrush x:Key="ThemeScrollBarThumbMouseOverBackgroundBrush" Color="#6A6A6A" />
     <SolidColorBrush x:Key="ThemeScrollBarThumbDraggingBackgroundBrush" Color="#7A7A7A" />
 
+    <!-- Button Brushes -->
+    <SolidColorBrush x:Key="ThemeButtonBackgroundBrush" Color="#3F3F46"/>
+    <SolidColorBrush x:Key="ThemeButtonBorderBrush" Color="#555555"/>
+    <SolidColorBrush x:Key="ThemeButtonMouseOverBackgroundBrush" Color="#4F4F56"/>
+    <SolidColorBrush x:Key="ThemeButtonPressedBackgroundBrush" Color="#5A5A63"/>
+    <SolidColorBrush x:Key="ThemeButtonDisabledBackgroundBrush" Color="#3E3E42" />
+    <SolidColorBrush x:Key="ThemeButtonDisabledForegroundBrush" Color="#6A6A6A" />
+    <SolidColorBrush x:Key="ThemeButtonDisabledBorderBrush" Color="#4A4A4E" />
+
 </ResourceDictionary> 

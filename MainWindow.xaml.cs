@@ -34,7 +34,7 @@ namespace PaintBetter
             HeightTextBox.Text = CanvasBorder.Height.ToString();
 
             // Load and apply saved theme
-            //LoadAndApplyTheme(); // Temporarily disable theme loading
+            LoadAndApplyTheme(); 
         }
 
         private void InitializeAnimations()
@@ -132,16 +132,16 @@ namespace PaintBetter
 
         private void FilePanelSettingsThemeButton_Click(object sender, RoutedEventArgs e)
         {
-            // Theme switching will not work now as LoadAndApplyTheme/SwitchTheme are disabled
             string selectedTheme = "Light";
             if (sender == DarkThemeRadio)
             {
                 selectedTheme = "Dark";
             }
-            // SwitchTheme(selectedTheme); // Keep commented
-            // UpdateThemeRadioButtons(selectedTheme); // Keep commented
+            // Re-enable theme switching
+            SwitchTheme(selectedTheme);
+            UpdateThemeRadioButtons(selectedTheme);
             
-            // Still save setting, but UI won't update
+            // Still save setting
             Properties.Settings.Default.Theme = selectedTheme;
             Properties.Settings.Default.Save(); 
         }
