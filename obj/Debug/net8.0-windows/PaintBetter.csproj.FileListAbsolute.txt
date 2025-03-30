@@ -19,3 +19,7 @@ W:\code\paintBetter\obj\Debug\net8.0-windows\PaintBetter.pdb
 W:\code\paintBetter\obj\Debug\net8.0-windows\PaintBetter.genruntimeconfig.cache
 W:\code\paintBetter\obj\Debug\net8.0-windows\ref\PaintBetter.dll
 W:\code\paintBetter\obj\Debug\net8.0-windows\PaintBetter.sourcelink.json
+W:\code\paintBetter\obj\Debug\net8.0-windows\Themes\DarkTheme.baml
+W:\code\paintBetter\obj\Debug\net8.0-windows\Themes\Generic.baml
+W:\code\paintBetter\obj\Debug\net8.0-windows\Themes\LightTheme.baml
+W:\code\paintBetter\obj\Debug\net8.0-windows\App.baml

@@ -5,26 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PaintBetter"
         mc:Ignorable="d"
-        Title="PaintBetter" Height="600" Width="800">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top">
+        Title="PaintBetter" Height="600" Width="800"
+        Background="{DynamicResource ThemeWindowBackgroundBrush}" 
+        Foreground="{DynamicResource ThemeForegroundBrush}">
+    <DockPanel x:Name="RootDockPanel">
+        <Menu DockPanel.Dock="Top" Background="{DynamicResource ThemeControlBackgroundBrush}">
             <MenuItem Header="_File">
                 <MenuItem Header="_Save"/>
+                <MenuItem Header="_Settings">
+                    <MenuItem x:Name="LightThemeMenuItem" Header="_Light Theme" IsCheckable="True" Click="ThemeMenuItem_Click"/>
+                    <MenuItem x:Name="DarkThemeMenuItem" Header="_Dark Theme" IsCheckable="True" Click="ThemeMenuItem_Click"/>
+                </MenuItem>
                 <Separator/>
                 <MenuItem Header="_Quit" Click="QuitMenuItem_Click"/>
             </MenuItem>
         </Menu>
 
-        <ToolBarTray DockPanel.Dock="Top">
+        <ToolBarTray x:Name="MainToolBarTray" DockPanel.Dock="Top" Background="{DynamicResource ThemeControlBackgroundBrush}">
             <ToolBar>
                 <Button Content="Pencil" />
                 <Button Content="Eraser" />
                 <Separator />
                 <Button Content="Color" />
+                <Separator />
+                <Label Content="Width:"/>
+                <TextBox x:Name="WidthTextBox" Width="50" />
+                <Label Content="Height:"/>
+                <TextBox x:Name="HeightTextBox" Width="50" />
+                <Button x:Name="ResizeButton" Content="Set Size" Click="ResizeButton_Click"/>
             </ToolBar>
         </ToolBarTray>
 
-        <StatusBar DockPanel.Dock="Bottom">
+        <StatusBar x:Name="MainStatusBar" DockPanel.Dock="Bottom" Background="{DynamicResource ThemeControlBackgroundBrush}">
             <StatusBarItem>
                 <TextBlock x:Name="FileNameText" Text="Untitled" />
             </StatusBarItem>
@@ -34,8 +46,17 @@
             </StatusBarItem>
         </StatusBar>
 
-        <!-- Canvas takes remaining space -->
-        <InkCanvas x:Name="DrawingCanvas" Background="White" MouseMove="DrawingCanvas_MouseMove"/>
+        <!-- ScrollViewer allows canvas size independent of window -->
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Background="{DynamicResource ThemeWindowBackgroundBrush}">
+             <!-- Border visually contains the canvas -->
+            <Border x:Name="CanvasBorder"
+                    Width="800" Height="600"
+                    BorderBrush="{DynamicResource ThemeBorderBrush}" BorderThickness="1" 
+                    HorizontalAlignment="Left" VerticalAlignment="Top">
+                 <!-- Canvas fills the border, keep background White -->
+                <InkCanvas x:Name="DrawingCanvas" Background="White" MouseMove="DrawingCanvas_MouseMove"/>
+            </Border>
+        </ScrollViewer>
 
     </DockPanel>
 </Window> 

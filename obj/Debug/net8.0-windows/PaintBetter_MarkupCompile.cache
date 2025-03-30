@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 W:\code\paintBetter\App.xaml
-11407045341
+4765261769
 
-31863237556
+4-407970655
 1981124507420
-MainWindow.xaml;
+MainWindow.xaml;Themes\DarkTheme.xaml;Themes\Generic.xaml;Themes\LightTheme.xaml;
 
 False
 

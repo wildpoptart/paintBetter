@@ -4,6 +4,14 @@
              xmlns:local="clr-namespace:PaintBetter"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Load Generic Styles first (depends on theme brushes) -->
+                <ResourceDictionary Source="Themes/Generic.xaml"/> 
+                
+                <!-- Theme dictionary will be loaded dynamically here -->
+                <!-- Example: <ResourceDictionary Source="Themes/LightTheme.xaml"/> -->
+            </ResourceDictionary.MergedDictionaries>
+         </ResourceDictionary>
     </Application.Resources>
 </Application> 
