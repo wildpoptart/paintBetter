@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PaintBetter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+24e829a9b45547a342d708f2e3abc3874c514e26")]
 [assembly: System.Reflection.AssemblyProductAttribute("PaintBetter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PaintBetter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

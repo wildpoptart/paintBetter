@@ -1,0 +1,116 @@
+## Ignore Visual Studio temporary files, build results, and generated files
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio cache files
+.vs/
+# Uncomment if you have tasks that create the project's launch settings
+#न्launchSettings.json
+
+# Directory.Build.props, Directory.Build.targets, and nuget.config are customizations for managing sources and package versions
+# They generally should be committed to the repo but optionally exclude them if they are machine-specific configurations
+# Directory.Build.props
+# Directory.Build.targets
+# nuget.config
+
+# Rider
+.idea/
+*.sln.iml
+
+# Backup files
+*.bak
+
+# NuGet Packages
+# *.nupkg
+# The packages folder can be ignored because of Package Restore
+**/[Pp]ackages/*
+# except build/, which is used as an MSBuild target.
+!**/[Pp]ackages/build/
+# Uncomment if necessary however generally it will be regenerated when needed
+#!**/[Pp]ackages/repositories.config
+
+# Test Results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+*.VisualState.xml
+TestResult.xml
+
+# Build Results of an ATL Project
+[Dd]ebugPS/
+[Rr]eleasePS/
+DllData.c
+
+# Benchmark Results
+BenchmarkDotNet.Artifacts/
+
+# mstest test results
+[Tt]est[Rr]esults/
+
+# NUnit
+*.VisualState.xml
+TestResult.xml
+results.xml
+
+# Code Analysis
+*_i.c
+*_p.c
+*_h.h
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.tmp_proj
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.pidb
+*.svclog
+*.scc
+
+# Coverage files
+*.coverage
+*.coveragexml
+
+# NCover
+*.ncov
+
+# TODO: review
+# ReSharper is a Visual Studio extension that provides on-the-fly code analysis
+# *.resharper
+# _ReSharper*
+# *.resharper.user
+
+# TeamCity is a build management and continuous integration server from JetBrains
+# _TeamCity* 
