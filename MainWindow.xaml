@@ -6,8 +6,36 @@
         xmlns:local="clr-namespace:PaintBetter"
         mc:Ignorable="d"
         Title="PaintBetter" Height="600" Width="800">
-    <Grid>
-        <!-- Canvas placeholder -->
-        <InkCanvas x:Name="DrawingCanvas" />
-    </Grid>
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Save"/>
+                <Separator/>
+                <MenuItem Header="_Quit" Click="QuitMenuItem_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Content="Pencil" />
+                <Button Content="Eraser" />
+                <Separator />
+                <Button Content="Color" />
+            </ToolBar>
+        </ToolBarTray>
+
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="FileNameText" Text="Untitled" />
+            </StatusBarItem>
+            <Separator/>
+            <StatusBarItem>
+                <TextBlock x:Name="CoordinatesText" Text="X: 0, Y: 0" />
+            </StatusBarItem>
+        </StatusBar>
+
+        <!-- Canvas takes remaining space -->
+        <InkCanvas x:Name="DrawingCanvas" Background="White" MouseMove="DrawingCanvas_MouseMove"/>
+
+    </DockPanel>
 </Window> 

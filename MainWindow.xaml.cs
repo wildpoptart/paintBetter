@@ -20,5 +20,16 @@ namespace PaintBetter
         {
             InitializeComponent();
         }
+
+        private void DrawingCanvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point position = e.GetPosition(DrawingCanvas);
+            CoordinatesText.Text = $"X: {(int)position.X}, Y: {(int)position.Y}";
+        }
+
+        private void QuitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 } 
